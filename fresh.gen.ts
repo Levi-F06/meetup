@@ -4,17 +4,21 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
+import * as $api_log_in from "./routes/api/log-in.ts";
 import * as $index from "./routes/index.tsx";
-
+import * as $Header from "./islands/Header.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
   routes: {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
+    "./routes/api/log-in.ts": $api_log_in,
     "./routes/index.tsx": $index,
   },
-  islands: {},
+  islands: {
+    "./islands/Header.tsx": $Header,
+  },
   baseUrl: import.meta.url,
 } satisfies Manifest;
 
