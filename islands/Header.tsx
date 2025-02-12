@@ -1,7 +1,9 @@
 import { useState } from "preact/hooks";
 import Form from "../components/form.tsx";
 
-export default function Header() {
+export default function Header({ result }: { result?: string }) {
+  console.log(result);
+
   const [form, expandForm] = useState<boolean>(false);
 
   const BUTTON_CLASS =
@@ -37,11 +39,7 @@ export default function Header() {
           Log In
         </button>
       </header>
-      {form
-        ? (
-          <Form />
-        )
-        : ("")}
+      {form ? <Form /> : ("")}
     </div>
   );
 }

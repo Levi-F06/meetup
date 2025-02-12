@@ -16,6 +16,7 @@ export default function Form() {
           class={INPUT_CLASS}
           type="text"
           placeholder="Ask Levi"
+          required
         />
       </div>
       <div>
@@ -25,6 +26,7 @@ export default function Form() {
           class={INPUT_CLASS}
           type="password"
           placeholder="Not telling 😂"
+          required
         />
       </div>
       <div class="flex flex-col gap-2">
