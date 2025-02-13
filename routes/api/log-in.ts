@@ -8,16 +8,34 @@ export const handler: Handlers = {
 
     const form = await req.formData();
     const user = await db.query(
-      "SELECT password FROM users WHERE username = ?",
+      "SELECT password FROM users WHERE username = ?;",
       [form.get("username")],
     );
+
+    const headers = new Headers();
 
     if (Object.keys(user).length) {
       const password = form.get("password") as string;
       const userPassword = user[0].password;
 
       if (bcrypt.compareSync(password, userPassword)) {
+        const usersID = await db.query(
+          "SELECT ID FROM users WHERE username=?;",
+          [form.get("username")],
+        );
         result = "success";
+        // Create session
+        const sessionsID = crypto.randomUUID();
+
+        await db.execute(
+          `INSERT INTO sessions VALUES (?, ?)`,
+          [sessionsID, usersID[0].ID],
+        );
+
+        headers.append(
+          "Set-Cookie",
+          `session=${sessionsID}; Path=/; HttpOnly SameSite=Lax`,
+        );
       } else {
         result = "incorrect_password";
       }
@@ -25,7 +43,6 @@ export const handler: Handlers = {
       result = "username_not_found";
     }
 
-    const headers = new Headers();
     headers.set("location", `/?result=${result}`);
     return new Response(null, {
       status: 303,

@@ -2,8 +2,9 @@ import { useState } from "preact/hooks";
 import Form from "../components/form.tsx";
 
 export default function Header({ result }: { result?: string }) {
-  console.log(result);
-
+  if (result) {
+    console.log(result);
+  }
   const [form, expandForm] = useState<boolean>(false);
 
   const BUTTON_CLASS =
